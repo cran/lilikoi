@@ -4,16 +4,37 @@
 \alias{lilikoi.machine_learning}
 \title{A machine learning Function}
 \usage{
-lilikoi.machine_learning(PDSmatrix, measurementLabels, significantPathways)
+lilikoi.machine_learning(
+  MLmatrix = PDSmatrix,
+  measurementLabels = Label,
+  significantPathways = selected_Pathways_Weka,
+  trainportion = 0.8,
+  cvnum = 10
+)
 }
 \arguments{
-\item{PDSmatrix}{from lilikoi.get_pd_scores}
+\item{MLmatrix}{selected pathway deregulation score or metabolites expression matrix}
 
-\item{measurementLabels}{Cancer or not}
+\item{measurementLabels}{measurement label for samples}
 
-\item{significantPathways}{Pathways with high significance from lilikoi.select_pathways function}
+\item{significantPathways}{selected pathway names}
+
+\item{trainportion}{train percentage of the total sample size}
+
+\item{cvnum}{number of folds}
+}
+\value{
+Evaluation results and plots of all 8 machine learning algorithms, along with variable importance plots.
 }
 \description{
-This function for classification using 7 different machine learning algorithms
-and it plots the ROC curves and the AUC, SEN, and specificity
+This function for classification using 8 different machine learning algorithms
+and it plots the ROC curves and the AUC, SEN, and specificty
 }
+\examples{
+\donttest{
+lilikoi.machine_learning(MLmatrix = Metadata, measurementLabels = Metadata$Label,
+significantPathways = 0,
+trainportion = 0.8, cvnum = 10)
+}
+}
+\keyword{classifcation}
