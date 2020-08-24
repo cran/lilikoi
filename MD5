@@ -1,5 +1,5 @@
-70c3b6ab99dc63b9ee41e312b041dc92 *DESCRIPTION
-fbb5284824a961b99615eb5e91344592 *NAMESPACE
+b4d1186ce396befae9f10b778dd055ab *DESCRIPTION
+624fc1c70402d25d735b716358accb9b *NAMESPACE
 f2c8d454f93287a8f68f1aa48eed4581 *NEWS.md
 e0d808e253dcfc4213542928f0bef300 *R/lilikoi.KEGGplot.R
 cf16e626e533e6f1387d8454cdac298d *R/lilikoi.Loaddata.r
@@ -8,7 +8,7 @@ cf16e626e533e6f1387d8454cdac298d *R/lilikoi.Loaddata.r
 d2d8016dedcf0313bf55518240a88d48 *R/lilikoi.explr.R
 3885b1d3f4c9ec2789e368caa211ae6d *R/lilikoi.featuresSelection.r
 cac95d6347b640ea2e19ab136283a6d7 *R/lilikoi.globals.R
-dc1d4a1c0060fcefb6c4651393d83c3e *R/lilikoi.machine_learning.r
+9341542e04031521df390ecdbfa27641 *R/lilikoi.machine_learning.r
 abd0449a5f786a02451fd8d2b05c59dc *R/lilikoi.meta_path.R
 f0177b42a6c4f058adb6c24732cff554 *R/lilikoi.preproc_knn.R
 85df50aae48e32ae24e262f2870e9440 *R/lilikoi.preproc_norm.R
@@ -25,7 +25,7 @@ ee263c2e10feb0fdf4190c37d3839a3a *inst/cox_nnet3/__pycache__/cox_nnet3.cpython-3
 2f5de85d55c9fdbcdec0fa82192c68a6 *inst/cox_nnet3/cox_nnet3.py
 379ded748c52b7f39c788d226d19fccd *inst/doc/Vignette.R
 de32acb268e88f18ccffccb8e041d0a6 *inst/doc/Vignette.Rmd
-369b9a80fb2ccabdf5c30cb265f75365 *inst/doc/Vignette.html
+fc0e2048a0dd497ca532ff4770b7e74f *inst/doc/Vignette.html
 dea28d25b12d07d4a3c2e2be89f13b97 *inst/extdata/data_format.csv
 0d586f6c79e276ba9ca3d99a72dfa416 *inst/extdata/plasma_breast_cancer.csv
 ec0495eca8de8d48f94e889c3c739f64 *inst/extdata/plasma_breast_cancer_Meta.csv
@@ -36,7 +36,7 @@ ec0495eca8de8d48f94e889c3c739f64 *inst/extdata/plasma_breast_cancer_Meta.csv
 5ed21b3a5922d9106d3329505e9034d8 *man/lilikoi.PDSfun.Rd
 c834d52b5a9aa7ae9490d06af2290963 *man/lilikoi.explr.Rd
 ee45bba4779b21d658dd77ef069e66bb *man/lilikoi.featuresSelection.Rd
-ec573d6e8669d4293c6a740c8fcdff30 *man/lilikoi.machine_learning.Rd
+fdbabc37f729121049dcc060083c5a37 *man/lilikoi.machine_learning.Rd
 254b27febd6f46c82e11a609282b1771 *man/lilikoi.meta_path.Rd
 93166fc35def1ee4021b2d777ec14152 *man/lilikoi.preproc_knn.Rd
 db5af66b7193713da7663a68bbf32f53 *man/lilikoi.preproc_norm.Rd
