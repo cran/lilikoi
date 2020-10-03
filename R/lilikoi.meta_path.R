@@ -11,12 +11,7 @@
 #' @import scales RCy3
 #' @return A bipartite graph of the relationships between pathways and their corresponding metabolites.
 #' @export
-#' @examples
-#' \donttest{
-#'  lilikoi.meta_path(PDSmatrix = PDSmatrix,
-#'    selected_Pathways_Weka = selected_Pathways_Weka,
-#'    Metabolite_pathway_table = Metabolite_pathway_table)
-#' }
+
 
 lilikoi.meta_path <- function(PDSmatrix, selected_Pathways_Weka, Metabolite_pathway_table, pathway="Alanine, Aspartate And Glutamate Metabolism"){
 
@@ -85,7 +80,6 @@ lilikoi.meta_path <- function(PDSmatrix, selected_Pathways_Weka, Metabolite_path
   # Output nodedat and edgedat
   y <- NULL
   for (i in 1:length(selected_Pathways_Weka)){
-    # i = 1
     reg <- regression(input=selected_Pathways_Weka[i], PDSmatrix, selected_Pathways_Weka, Metabolite_pathway_table)
     res <- output(reg)
     path <- rep(selected_Pathways_Weka[i], length(reg))
@@ -95,7 +89,6 @@ lilikoi.meta_path <- function(PDSmatrix, selected_Pathways_Weka, Metabolite_path
 
 
   }
-
 
   edgedat <- y[c(1,3,2)]
   names(edgedat) <- c('source', 'target','weight')
@@ -113,94 +106,140 @@ lilikoi.meta_path <- function(PDSmatrix, selected_Pathways_Weka, Metabolite_path
 
   ## individual pathway plot
   indres <- subset(y, path==pathway)
+  ids <- gsub(pattern = "\`", replacement = '', x = indres$X1, fixed = FALSE)
+  indres$X1 <- ids
+
   p <- ggplot(data=indres, aes(x=reorder(X1, X2, sum), y=X2)) + geom_bar(stat="identity")
   bipartite.plot = p + theme(axis.text.x = element_text(angle = 90, hjust = 1, size=10),
                              plot.title = element_text(color="black", hjust = 0.5)) +
-    labs(title=pathway, x=NULL, y=NULL)
-
+    labs(title=pathway, x=NULL, y="Meta-path association")
 
 
   ## Bipartite plot
-  cytoimage <- function(nodedat, edgedat){
+cytoimage <- function(nodedat, edgedat){
 
-    # library(RCy3)
+  cytoscapePing()
 
-    cytoscapePing()
+  cytoscapeVersionInfo ()
 
-    cytoscapeVersionInfo ()
-
-    if('weight' %in% names(edgedat)){
-      edgedat$absweight <- abs(edgedat$weight)
-    }
+  if('weight' %in% names(edgedat)){
+    edgedat$absweight <- abs(edgedat$weight)
+  }
 
 
-    names(nodedat)[1] <- 'id'
-    names(edgedat)[c(1, 2)] <- c('source', 'target')
-    edgedat$interaction <- 1
-
-    createNetworkFromDataFrames(nodedat, edgedat, title = 'lilikoinet', collection = 'lilikoi2')
-
-
-    #Create own style
-
-    stylename <- 'lilikoistyle'
+  names(nodedat)[1] <- 'id'
+  names(edgedat)[c(1, 2)] <- c('source', 'target')
+  edgedat$interaction <- 1
+  nodedat$info <- c(rep("metabolite",nrow(unique(source))), rep("pathway",nrow(unique(target))))
 
 
-    defaults <- list(NODE_SHAPE = 'ELLIPSE',
-                     EDGE_TRANSPARENCY = 255,
-                     EDGE_BEND = "0.728545744495502,-0.684997151948455,0.6456513365424503",
-                     EDGE_CURVED = TRUE)
+  #New code#########################################################################################
+  improvenodename <- function(nodes = nodedat, edges = edgedat){
 
-    nodelabel <- mapVisualProperty('node label','id','p')
+    nodeids <- nodes$id
 
-    nodefill <- mapVisualProperty('node fill color', 'info', 'd',
-                                  c('metabolite', 'pathway'), c('cyan', 'yellow'))
+    ids <- gsub(pattern = "\`", replacement = '', x = nodeids, fixed = FALSE)
+    ids <- gsub(pattern = "\"", replacement = '', x = ids, fixed = FALSE)
+    ids <- gsub(pattern = "\'", replacement = '', x = ids, fixed = FALSE)
 
-    nodeheight <- mapVisualProperty('node height', 'info', 'd',
-                                    c('metabolite', 'pathway'), c(30, 50))
+    nodes$id <- ids
 
-    nodewidth <- mapVisualProperty('node width', 'info', 'd',
-                                   c('metabolite', 'pathway'), c(40, 60))
+    edgesources <- edges$source
+    edgetargets <- edges$target
 
+    sources <- gsub(pattern = "\`", replacement = '', x = edgesources, fixed = FALSE)
+    sources <- gsub(pattern = "\"", replacement = '', x = sources, fixed = FALSE)
+    sources <- gsub(pattern = "\'", replacement = '', x = sources, fixed = FALSE)
 
+    edges$source <- sources
 
-    createVisualStyle(stylename, defaults, list(nodelabel, nodefill, nodeheight, nodewidth))
+    targets <- gsub(pattern = "\`", replacement = '', x = edgetargets, fixed = FALSE)
+    targets <- gsub(pattern = "\"", replacement = '', x = targets, fixed = FALSE)
+    targets <- gsub(pattern = "\'", replacement = '', x = targets, fixed = FALSE)
 
+    edges$target <- targets
 
-    #Implement the network
-
-    setVisualStyle(stylename)
-
-    lockNodeDimensions(FALSE, style.name = stylename)
-
-    if('edge.col' %in% names(edgedat)){
-      unicols <- unique(edgedat$edge.col)
-
-      if(length(unicols) == 2){
-
-        setEdgeColorMapping('edge.col', c('Red', 'Blue'), c('#FF0000', '#0000FF'), 'd', style.name = stylename)
-
-      }else if(length(unicols) > 2){
-
-        setEdgeColorMapping('edge.col', unicols, hue_pal()(length(unicols), 'd', style.name = stylename))
-
-      }
-
-    }
-
-    if('absweight' %in% names(edgedat)){
-      setEdgeLineWidthMapping('absweight', range(edgedat$absweight), c(2, 5), 'c', style.name = stylename)
-    }
-
-
-    layoutNetwork('cose')
-
-    exportImage(type = 'PDF')
+    return(list(nodedat = nodes, edgedat = edges))
 
   }
 
-  nodegraph <- cytoimage(nodedat = nodedat, edgedat = edgedat)
-  #Need write completely as nodedat = nodedat, not just nodedat
+
+  res <- improvenodename(nodes = nodedat, edges = edgedat)
+
+  nodedat <- res$nodedat
+  edgedat <- res$edgedat
+
+  rm(res)
+  ####################################################################################################
+
+
+
+
+  createNetworkFromDataFrames(nodedat, edgedat, title = 'lilikoinet', collection = 'lilikoi2')
+
+
+  #Create own style
+
+  stylename <- 'lilikoistyle'
+
+
+  defaults <- list(NODE_SHAPE = 'ELLIPSE',
+                   EDGE_TRANSPARENCY = 255,
+                   EDGE_BEND = "0.728545744495502,-0.684997151948455,0.6456513365424503",
+                   EDGE_CURVED = TRUE)
+
+  nodelabel <- mapVisualProperty('node label','id','p')
+
+  nodelabelfontsize <- mapVisualProperty('node label font size', 'info', 'd',
+                                         c('metabolite', 'pathway'), c(10, 10))
+
+  nodefill <- mapVisualProperty('node fill color', 'info', 'd',
+                                c('metabolite', 'pathway'), c('cyan', 'yellow'))
+
+  nodeheight <- mapVisualProperty('node height', 'info', 'd',
+                                  c('metabolite', 'pathway'), c(30, 50))
+
+  nodewidth <- mapVisualProperty('node width', 'info', 'd',
+                                 c('metabolite', 'pathway'), c(40, 60))
+
+
+
+  createVisualStyle(stylename, defaults, list(nodelabel, nodelabelfontsize, nodefill, nodeheight, nodewidth))
+
+
+  #Implement the network
+
+  setVisualStyle(stylename)
+
+  lockNodeDimensions(FALSE, style.name = stylename)
+
+  if('edge.col' %in% names(edgedat)){
+    unicols <- unique(edgedat$edge.col)
+
+    if(length(unicols) == 2){
+
+      setEdgeColorMapping('edge.col', c('Red', 'Blue'), c('#FF0000', '#0000FF'), 'd', style.name = stylename)
+
+    }else if(length(unicols) > 2){
+
+      setEdgeColorMapping('edge.col', unicols, hue_pal()(length(unicols), 'd', style.name = stylename))
+
+    }
+
+  }
+
+  if('absweight' %in% names(edgedat)){
+    setEdgeLineWidthMapping('absweight', range(edgedat$absweight), c(2, 5), 'c', style.name = stylename)
+  }
+
+
+  layoutNetwork('cose')
+
+  exportImage(type = 'PDF')
+
+}
+
+  nodegraph <- cytoimage(nodedat, edgedat)
   # return(nodegraph)
 
   returnList <- list()
@@ -208,6 +247,8 @@ lilikoi.meta_path <- function(PDSmatrix, selected_Pathways_Weka, Metabolite_path
   returnList$node.graph <- nodegraph
   return(returnList)
 }
+
+
 
 
 

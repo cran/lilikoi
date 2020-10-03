@@ -9,6 +9,7 @@
 #' @param trainportion train percentage of the total sample size
 #' @param cvnum number of folds
 #' @param dlround epoch number for the deep learning method
+#' @param nrun denotes the total number of runs of each method to get their averaged performance metrics
 #' @param Rpart TRUE if run Rpart method
 #' @param LDA TRUE if run LDA method
 #' @param SVM TRUE if run SVM method
@@ -38,7 +39,7 @@
 
 lilikoi.machine_learning <- function (MLmatrix = PDSmatrix, measurementLabels = Label,
                               significantPathways = selected_Pathways_Weka,
-                              trainportion = 0.8, cvnum = 10, dlround=50,Rpart=TRUE,
+                              trainportion = 0.8, cvnum = 10, dlround=50,nrun=10,Rpart=TRUE,
                               LDA=TRUE,SVM=TRUE,RF=TRUE,GBM=TRUE,PAM=TRUE,LOG=TRUE,DL=TRUE) {
 
 
@@ -88,7 +89,7 @@ lilikoi.machine_learning <- function (MLmatrix = PDSmatrix, measurementLabels = 
 
   # model <- list()
 
-  for (k in 1:10){
+  for (k in 1:nrun){
 
     ###############Shuffle stat first
     rand <- sample(nrow(prostate_df))
@@ -194,15 +195,15 @@ lilikoi.machine_learning <- function (MLmatrix = PDSmatrix, measurementLabels = 
         ldaClasses1 <- predict( fit.lda, newdata = irisTest)
         ldaConfusion=confusionMatrix(data = ldaClasses1, irisTest$subtype)
         lda.ROC <- roc(predictor=ldaClasses[,1],response=irisTest$subtype,levels=rev(levels(irisTest$subtype)))
-        performance_testing[1,2]=as.numeric(lda.ROC$auc)#AUC
-        performance_testing[2,2]=ldaConfusion$byClass[1]#SENS
-        performance_testing[3,2]=ldaConfusion$byClass[2]#SPEC
-        performance_testing[4,2]=ldaConfusion$overall[1]#accuracy
-        performance_testing[5,2]=ldaConfusion$byClass[5]#precision
-        performance_testing[6,2]=ldaConfusion$byClass[6]#recall = sens
-        performance_testing[7,2]=ldaConfusion$byClass[7]#F1
+        performance_testing[1,idx]=as.numeric(lda.ROC$auc)#AUC
+        performance_testing[2,idx]=ldaConfusion$byClass[1]#SENS
+        performance_testing[3,idx]=ldaConfusion$byClass[2]#SPEC
+        performance_testing[4,idx]=ldaConfusion$overall[1]#accuracy
+        performance_testing[5,idx]=ldaConfusion$byClass[5]#precision
+        performance_testing[6,idx]=ldaConfusion$byClass[6]#recall = sens
+        performance_testing[7,idx]=ldaConfusion$byClass[7]#F1
         if(length(unilabels) == 2){
-          performance_testing[8,2]=ldaConfusion$byClass[11]#BALANCED ACCURACY
+          performance_testing[8,idx]=ldaConfusion$byClass[11]#BALANCED ACCURACY
         }
       }
 
