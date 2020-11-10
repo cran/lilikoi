@@ -8,20 +8,19 @@
 #' @param tsne if TRUE, T-SNE plot will be out.
 #' @return Source of variation test results and PCA and t-SNE plot
 #' @import parallel
-#' @importFrom M3C pca tsne
 #' @importFrom stats as.formula
 #' @importFrom car Anova
 #' @export
 #' @examples
 #' \donttest{
-#' lilikoi.explr(data, demo.data, pca=TRUE, tsne=FALSE)
+#' # lilikoi.explr(data, demo.data, pca=TRUE, tsne=FALSE)
 #' }
 
 
 lilikoi.explr <- function(data, demo.data, pca=FALSE, tsne=FALSE){
 
 
-  sovdata <- data
+  sovdat <- data
   pd <- demo.data
 
   # Calculate F
