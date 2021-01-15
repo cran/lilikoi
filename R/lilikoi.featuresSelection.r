@@ -16,7 +16,7 @@
 #'   "plasma_breast_cancer.csv", package = "lilikoi"))
 #' Metadata <- dt$Metadata
 #' dataSet <- dt$dataSet
-#' Metabolite_pathway_table=lilikoi.MetaTOpathway('name')
+#' # Metabolite_pathway_table=lilikoi.MetaTOpathway('name')
 #' # PDSmatrix= lilikoi.PDSfun(Metabolite_pathway_table)
 #' # selected_Pathways_Weka= lilikoi.featuresSelection(PDSmatrix,threshold= 0.54,method="gain")
 #' }
