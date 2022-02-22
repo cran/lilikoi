@@ -23,9 +23,14 @@ dt <- lilikoi.Loaddata(file=system.file("extdata",
   "plasma_breast_cancer.csv", package = "lilikoi"))
 Metadata <- dt$Metadata
 dataSet <- dt$dataSet
-# convertResults=lilikoi.MetaTOpathway('name')
-# Metabolite_pathway_table = convertResults$table
+convertResults=lilikoi.MetaTOpathway('name')
+Metabolite_pathway_table = convertResults$table
 # PDSmatrix= lilikoi.PDSfun(Metabolite_pathway_table)
 }
+}
+\references{
+Nygård, S., Lingjærde, O.C., Caldas, C. et al.
+PathTracer: High-sensitivity detection of differential pathway activity in tumours.
+Sci Rep 9, 16332 (2019). https://doi.org/10.1038/s41598-019-52529-3
 }
 \keyword{PDS}

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 #  PDSmatrix=lilikoi.PDSfun(Metabolite_pathway_table)
 
 ## ----eval=FALSE, include=TRUE-------------------------------------------------
-#  selected_Pathways_Weka= lilikoi.featuresSelection(PDSmatrix,threshold= 0.54,method="gain")
+#  selected_Pathways_Weka= lilikoi.featuresSelection(PDSmatrix,threshold= 0.50,method="gain")
 #  selected_Pathways_Weka
 
 ## ----eval=FALSE, include=TRUE-------------------------------------------------
