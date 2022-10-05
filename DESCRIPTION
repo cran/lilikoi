@@ -1,7 +1,7 @@
 Package: lilikoi
 Type: Package
 Title: Metabolomics Personalized Pathway Analysis Tool
-Version: 2.1.0
+Version: 2.1.1
 Authors@R: c(
  person("Xinying", "Fang", email = "xinyingf@umich.edu", role = c("aut")),
  person("Yu", "Liu", email = "uiluy@umich.edu", role = "aut"),
@@ -18,11 +18,11 @@ Imports: car, caret, dplyr, gbm, ggplot2, glmnet, h2o, impute,
         reshape, RWeka, scales, stats, stringr, survminer, survival
 License: GPL-2
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 Suggests: knitr, rmarkdown
 NeedsCompilation: no
-Packaged: 2022-02-22 14:44:38 UTC; du
+Packaged: 2022-10-05 18:08:07 UTC; rrrrrita
 Author: Xinying Fang [aut],
   Yu Liu [aut],
   Zhijie Ren [aut],
@@ -31,4 +31,4 @@ Author: Xinying Fang [aut],
   Lana Garmire [aut, cre]
 Maintainer: Lana Garmire <lana.garmire.group@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-02-22 15:20:02 UTC
+Date/Publication: 2022-10-05 19:00:02 UTC

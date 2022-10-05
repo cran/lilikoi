@@ -4,9 +4,8 @@
 #' @param PDSmatrix from PDSfun function
 #' @param threshold to select the top pathways
 #' @param method information gain ("info") or gain ratio ("gain")
-#' @import caret RWeka infotheo ggplot2
+#' @import caret RWeka infotheo ggplot2 graphics
 #' @importFrom stats reorder
-#' @importFrom graphics plot
 #' @keywords features selection
 #' @return A list of top metabolites or pathways.
 #' @export
@@ -60,7 +59,7 @@ lilikoi.featuresSelection <- function(PDSmatrix,threshold= 0.5,method="info"){
   p + coord_flip()
   q <- p + aes(stringr::str_wrap(name, 20), I.R.paireddiagnosis) + ylab("Mutual information") +
     xlab("Pathways")
-  plot(q + coord_flip())
+  graphics::plot(q + coord_flip())
   #legend("topright",legend=names(I.R.paireddiagnosis[order(I.R.paireddiagnosis,decreasing=TRUE)])[-1], border=FALSE, cex=0.7)
 
   return(selected_pathways)
